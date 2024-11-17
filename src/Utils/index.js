@@ -1,9 +1,9 @@
 const CustomError = require("./CustomError")
-const globalErrorhandler = require("./globalErrorHandler")
+const globalErrorHandler = require("./globalErrorHandler")
 const asyncErrorHandler = require("./asyncErrorHandler")
 
 module.exports = {
     CustomError,
-    globalErrorhandler,
+    globalErrorHandler,
     asyncErrorHandler
 }
