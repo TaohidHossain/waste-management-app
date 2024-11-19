@@ -2,6 +2,7 @@ const express = require('express')
 const { connectDB } = require('./Configs')
 const { PORT } = require('./Configs/serverConfig')
 const { globalErrorHandler } = require('./Utils')
+const router = require('./Routers')
 
 // Setup express app
 const app = express()
@@ -23,7 +24,8 @@ connectDB()
         console.log(err)
         console.log(err.errorResponse.message)
     })
-
+// api router
+app.use("/", router)
 // testing endpoint
 app.get('/test', (req, res) => {
     res.status(200).send({ message: 'Hello World!'})
