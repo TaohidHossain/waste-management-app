@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 
 const permissionSchema = new mongoose.Schema({
-    permission: String
+    permission: {
+        type : String,
+        required: [true, "Please provide permission string"]
+    }
 })
 
 const Permission = mongoose.model('permission', permissionSchema)
