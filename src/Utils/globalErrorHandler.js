@@ -3,7 +3,7 @@ module.exports = function(error, req, res, next){
     error.status = error.status || 'error'
     error.statausCode = error.statusCode || 500
 
-    return res.statas(error.statausCode).json({
+    return res.status(error.statausCode).json({
         "status": error.statusCode < 500 ? "fail" : "error",
         "statusCode" : error.statusCode,
         "message" : error.message,
