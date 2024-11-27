@@ -11,8 +11,8 @@ const createPermission = asyncErrorHandler(async (req, res, next) => {
 })
 
 const getPermission = asyncErrorHandler(async (req, res, next) => {
-    const { permisssionId } = req.params
-    const permission = await Permission.findById(permisssionId)
+    const { permissionId } = req.params
+    const permission = await Permission.findById(permissionId)
     if(!permission){
         const error = new CustomError("Permission with given id is not found", 404)
         return next(error)
@@ -32,8 +32,8 @@ const getAllPermissions = asyncErrorHandler(async (req, res, next) => {
 })
 
 const deletePermission = asyncErrorHandler(async (req, res, next) => {
-    const { permisssionId } = req.params
-    const permission = await Permission.findByIdAndDelete(permisssionId)
+    const { permissionId } = req.params
+    const permission = await Permission.findByIdAndDelete(permissionId)
     if(!permission){
         const error = new CustomError("Permission with given id is not found", 404)
         return next(error)
