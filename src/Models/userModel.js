@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcrypt')
-const { timeStamp } = require('console')
-const { type } = require('os')
 require('crypto')
+
 const userSchema = new mongoose.Schema(
     {
         name: {
@@ -17,13 +16,14 @@ const userSchema = new mongoose.Schema(
             validate: [validator.isEmail, "Please enter a valid email"]
         },
         roleId: {
-            type: String
+            type: String,
+            default: "6746a722250c4ebe658f9b84"
         },
         password: {
             type: String,
             required: [true, "Please enter a password"],
             minlength: 6,
-            selete: false
+            select: false
         },
         confirmPassword: {
             type: String,

@@ -1,16 +1,15 @@
 const { Router } = require('express')
+const { userController } = require('../../Controllers')
 const router = Router()
 
 router.route('/')
-    .get((req, res) => res.send('Hello World'))
-    .post((req, res) => res.send(req.body))
+    .get(userController.getAllUsers)
+    .post(userController.createUser)
 
 router.route('/:id')
-   .get((req, res) => res.send(req.params.id))
-   .put((req, res) => res.send(req.params.id))
-   .delete((req, res) => res.send(req.params.id))
-
-router.route('/:id/roles')
-  .get((req, res) => res.send(req.params.id))
+   .get(userController.getUser)
+   .put(userController.updateUser)
+   .delete(userController.deleteUser)
+   
 
 module.exports = router
