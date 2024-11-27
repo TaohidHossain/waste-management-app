@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const { permissionController, roleController } = require('../../Controllers')
+const { permissionController, role_permissionController, roleController } = require('../../Controllers')
 const router = Router()
 
 router.route('/roles')
@@ -12,13 +12,21 @@ router.route('/roles/:roleId')
     .delete(roleController.deleteRole)
 
 router.route('/roles/:roleId/permissions')
-    .get((req, res) => res.send('Hello World!'))
+    .get(role_permissionController.findPermissionsByRoleId)
 
 router.route('/permissions')
     .get(permissionController.getAllPermissions)
     .post(permissionController.createPermission)
+    
+router.route('/role-permission')
+    .get(role_permissionController.getAllPermissions)
+    .post(role_permissionController.createPermission)
 
-router.route('/permissions/:permisssionId')
+router.route('/role-permission/:permissionId')
+    .get(role_permissionController.getPermission)
+    .delete(role_permissionController.deletePermission)
+
+router.route('/permissions/:permissionId')
     .get(permissionController.getPermission)
     .delete(permissionController.deletePermission)
 
