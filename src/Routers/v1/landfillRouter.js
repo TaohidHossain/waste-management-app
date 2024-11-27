@@ -1,13 +1,15 @@
 const { Router } = require('express')
+const { landfillController } = require('../../Controllers')
 const router = Router()
 
 router.route('/')
-    .get((req, res) => {res.send('Hello World')})
-    .post((req, res) => {res.send(req.body)})
+    .get(landfillController.getAllLandfills)
+    .post(landfillController.createLandfill)
 
 router.route('/:landfillId')
-    .put((req, res) => {res.send(req.body)})
-    .delete((req, res) => {res.send(req.body)})
+    .get(landfillController.getLandfill)
+    .put(landfillController.updateLandfill)
+    .delete(landfillController.deleteLandfill)
 
 router.route('/:landfillId/entry')
    .post((req, res) => {res.send(req.body)})

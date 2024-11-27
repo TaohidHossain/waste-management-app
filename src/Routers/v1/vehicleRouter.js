@@ -1,13 +1,15 @@
 const { Router } = require('express')
+const { vehicelController } = require('../../Controllers')
 const router = Router()
 
 
 router.route('/')
-    .get((req, res) => {res.send('Hello World')})
-    .post((req, res) => {res.send(req.body)})
+    .get(vehicelController.getAllVehicles)
+    .post(vehicelController.createVehicle)
 
 router.route('/:vehicleId')
-    .put((req, res) => {res.send(req.body)})
-    .delete((req, res) => {res.send(req.body)})
+    .get(vehicelController.getVehicle)
+    .put(vehicelController.updateVehicle)
+    .delete(vehicelController.deleteVehicle)
 
 module.exports = router

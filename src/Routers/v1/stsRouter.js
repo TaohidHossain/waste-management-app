@@ -1,13 +1,15 @@
 const { Router } = require('express')
+const { stsController } = require('../../Controllers')
 const router = Router()
 
 router.route('/')
-    .get((req, res) => {res.send('Hello World')})
-    .post((req, res) => {res.send(req.body)})
+    .get(stsController.getAllStses)
+    .post(stsController.createSts)
 
 router.route('/:stsId')
-    .put((req, res) => {res.send(req.body)})
-    .delete((req, res) => {res.send(req.body)})
+    .get(stsController.getSts)
+    .put(stsController.updateSts)
+    .delete(stsController.deleteSts)
 
 router.route('/:stsId/entry')
    .post((req, res) => {res.send(req.body)})
