@@ -35,8 +35,12 @@ const login = asyncErrorHandler(async (req, res, next) => {
     delete userObj['password']
     delete userObj['__v']
     // Step 3: send the token
+    res.cookie("jwt", token, {
+        httpOnly: true,
+        maxAge: serverConfig.LOGIN_EXPIRES
+    })
     return res.status(200).json({
-        'status': 'seccess',
+        'status': 'success',
         token,
         'user': userObj
     })
@@ -87,12 +91,12 @@ const changePassword = asyncErrorHandler(async (req, res, next) => {
 
 const hasAccess = (permission) => {
     return asyncErrorHandler(async (req, res, next) => {
-        const { roleId } = req.user.roleId
+        const { roleId } = req.user
         const permissions = await Role_permission.find({roleId}).select("permission")
         let result = []
         permissions.map(obj => result.push(obj.permission))
         if(result.includes(permission)){
-            next()
+            return next()
         }
         const error = new CustomError("This user does not have permission for this action", 403)
         next(error)
@@ -101,15 +105,15 @@ const hasAccess = (permission) => {
 
 const hasAccessOrSelfAccess = (permission) => {
     return asyncErrorHandler(async (req, res, next) => {
-        const { roleId } = req.user.roleId
+        const { roleId } = req.user
         const permissions = await Role_permission.find({roleId}).select("permission")
         let result = []
         permissions.map(obj => result.push(obj.permission))
         if(result.includes(permission)){
-            next()
+            return next()
         }
         if(req.user._id === req.params.userId){
-            next()
+            return next()
         }
         const error = new CustomError("This user does not have permission for this action", 403)
         next(error)

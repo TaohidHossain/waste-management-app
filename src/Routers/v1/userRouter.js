@@ -1,14 +1,16 @@
 const { Router } = require('express')
-const { userController } = require('../../Controllers')
+const { userController, authController } = require('../../Controllers')
 const router = Router()
 
 router.route('/')
-    .get(userController.getAllUsers)
+    .get(authController.protect, authController.hasAccess("user:view"), userController.getAllUsers)
 
 router.route('/:userId')
-   .get(userController.getUser)
-   .put(userController.updateUser)
-   .delete(userController.deleteUser)
-   
+   .get(authController.protect, authController.hasAccessOrSelfAccess("user:view"), userController.getUser)
+   .put(authController.protect, authController.hasAccessOrSelfAccess("user:update"), userController.updateUser)
+   .delete(authController.protect, authController.hasAccess("user:delete"), userController.deleteUser)
+
+router.route('/:userId/roles')
+    .put(authController.protect, authController.hasAccess("user:role:update"), userController.updateRole)
 
 module.exports = router

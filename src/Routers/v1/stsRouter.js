@@ -1,17 +1,17 @@
 const { Router } = require('express')
-const { stsController } = require('../../Controllers')
+const { stsController, authController } = require('../../Controllers')
 const router = Router()
 
 router.route('/')
-    .get(stsController.getAllStses)
-    .post(stsController.createSts)
+    .get(authController.protect, authController.hasAccess("sts:view"), stsController.getAllStses)
+    .post(authController.protect, authController.hasAccess("sts:create"), stsController.createSts)
 
 router.route('/:stsId')
-    .get(stsController.getSts)
-    .put(stsController.updateSts)
-    .delete(stsController.deleteSts)
+    .get(authController.protect, authController.hasAccess("sts:view"), stsController.getSts)
+    .put(authController.protect, authController.hasAccess("sts:upadte"), stsController.updateSts)
+    .delete(authController.protect, authController.hasAccess("sts:delete"), stsController.deleteSts)
 
 router.route('/:stsId/entry')
-   .post((req, res) => {res.send(req.body)})
+   .post(authController.protect, authController.hasAccess("sts:entry"), (req, res) => {res.send(req.body)})
 
 module.exports = router

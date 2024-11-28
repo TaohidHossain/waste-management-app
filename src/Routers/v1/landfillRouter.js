@@ -1,20 +1,20 @@
 const { Router } = require('express')
-const { landfillController } = require('../../Controllers')
+const { landfillController, authController } = require('../../Controllers')
 const router = Router()
 
 router.route('/')
-    .get(landfillController.getAllLandfills)
-    .post(landfillController.createLandfill)
+    .get(authController.protect, authController.hasAccess("landfill:view"), landfillController.getAllLandfills)
+    .post(authController.protect, authController.hasAccess("landfill:create"), landfillController.createLandfill)
 
 router.route('/:landfillId')
-    .get(landfillController.getLandfill)
-    .put(landfillController.updateLandfill)
-    .delete(landfillController.deleteLandfill)
+    .get(authController.protect, authController.hasAccess("landfill:view"), landfillController.getLandfill)
+    .put(authController.protect, authController.hasAccess("landfill:update"), landfillController.updateLandfill)
+    .delete(authController.protect, authController.hasAccess("landfill:delete"), landfillController.deleteLandfill)
 
 router.route('/:landfillId/entry')
-   .post((req, res) => {res.send(req.body)})
+   .post(authController.protect, authController.hasAccess("landfill:entry"), (req, res) => {res.send(req.body)})
 
 router.route('/:landfillId/bill')
-   .post((req, res) => {res.send(req.body)})
+   .post(authController.protect, authController.hasAccess("landfill:bill"), (req, res) => {res.send(req.body)})
 
 module.exports = router

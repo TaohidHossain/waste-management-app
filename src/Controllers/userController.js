@@ -67,9 +67,28 @@ const updateUser = asyncErrorHandler(async (req, res, next) => {
     })
 })
 
+const updateRole = asyncErrorHandler(async (req, res, next) =>{
+    const { roleId } = req.body
+    const { userId } = req.params
+    if(!roleId){
+        const error = CustomError("Please provide role ID", 400)
+        return next(error)
+    }
+    const user = await User.findByIdAndUpdate(userId, {roleId}).select("-__v")
+    if(!user){
+        const error = CustomError("User with given ID is not found", 404)
+        return next(error)
+    }
+    res.status(200).json({
+        "status": "success",
+        "data": user
+    })
+})
+
 module.exports = {
     getAllUsers,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    updateRole
 }
