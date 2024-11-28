@@ -1,14 +1,6 @@
 const { User, Role } = require('../Models') 
 const { asyncErrorHandler, CustomError } = require('../Utils')
 
-const createUser = asyncErrorHandler(async (req, res, next) => {
-    const newUser = await User.create(req.body)
-    res.status(201).json({
-        "status": "success",
-        "data": newUser
-    })
-})
-
 const getUser = asyncErrorHandler(async (req, res, next) => {
     const { userId } = req.params
     const user = await User.findById(userId).select("-__v")
@@ -78,7 +70,6 @@ const updateUser = asyncErrorHandler(async (req, res, next) => {
 module.exports = {
     getAllUsers,
     getUser,
-    createUser,
     updateUser,
     deleteUser
 }
