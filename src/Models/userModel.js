@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: [true, "Please enter an email"],
             unique: true,
-            validate: [validator.isEmail, "Please enter a valid email"]
+            validate: [validator.isEmail, "Please enter a valid email"],
+            immutable: true
         },
         roleId: {
             type: String,
