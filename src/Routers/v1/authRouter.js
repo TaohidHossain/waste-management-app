@@ -1,12 +1,17 @@
 const { Router } = require('express')
+const { authController } = require('../../Controllers')
 const router = Router()
 
+router.route('/signup')
+    .post(authController.signup)
+
 router.route('/login')
-    .post((req, res) => res.send('Login'))
+    .post(authController.login)
 
 router.route('/logout')
     .post((req, res) => res.send('Logout'))
 
+// route for forgot password
 router.route('/reset-password/initiate')
     .post((req, res) => res.send('reset password initiate'))
 
