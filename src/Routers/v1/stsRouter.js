@@ -12,6 +12,10 @@ router.route('/:stsId')
     .delete(authController.protect, authController.hasAccess("sts:delete"), stsController.deleteSts)
 
 router.route('/:stsId/entry')
-   .post(authController.protect, authController.hasAccess("sts:entry"), (req, res) => {res.send(req.body)})
+    .post(authController.protect, authController.hasAccess("sts:entry"), stsController.entry)
+
+router.route('/:stsId/managers')
+    .get(authController.protect, stsController.getManagers)
+    .post(authController.protect, stsController.assignManager)
 
 module.exports = router

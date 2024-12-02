@@ -1,4 +1,4 @@
-const { Sts, StsManagers } = require('../Models') 
+const { Sts, StsManagers, StsEntry } = require('../Models') 
 const { asyncErrorHandler, CustomError } = require('../Utils')
 
 const createSts = asyncErrorHandler(async (req, res, next) => {
@@ -84,6 +84,15 @@ const assignManager = asyncErrorHandler(async (req, res, next) => {
     })
 })
 
+const entry = asyncErrorHandler(async (req, res, next) => {
+    const { stsId } = req.params
+    const doc = await StsEntry.create({stsId, ...req.body})
+    res.status(201).json({
+        "status" : "success",
+        "data" : doc
+    })
+})
+
 module.exports = {
     getAllStses,
     getSts,
@@ -91,5 +100,6 @@ module.exports = {
     updateSts,
     deleteSts,
     getManagers,
-    assignManager
+    assignManager,
+    entry
 }

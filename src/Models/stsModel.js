@@ -2,9 +2,9 @@ const mongoose = require('mongoose')
 
 const stsShema = new mongoose.Schema(
     {
-        name: {
-            type: String,
-            required: [true, "Please provide a name for this STS"]
+        ward: {
+            type: Number,
+            required: [true, "Please provide the ward no. of this STS"]
         },
         longitude: {
             type: Number,
@@ -13,7 +13,11 @@ const stsShema = new mongoose.Schema(
         latitude: {
             type: Number,
             required: [true, "Please provide the latitude of this STS"]
-        }
+        },
+        capacity: {
+            type: Number,
+            required: [true, "Please provide capacity of this STS"]
+        } 
     },
     {
         timestamps: true
