@@ -1,4 +1,4 @@
-const { Landfill } = require('../Models') 
+const { Landfill, LandfillEntry } = require('../Models') 
 const { asyncErrorHandler, CustomError } = require('../Utils')
 
 const createLandfill = asyncErrorHandler(async (req, res, next) => {
@@ -56,10 +56,20 @@ const updateLandfill = asyncErrorHandler(async (req, res, next) => {
     })
 })
 
+const entry = asyncErrorHandler(async (req, res, next) => {
+    const { landfillId } = req.params
+    const doc = await LandfillEntry.create({landfillId, ...req.body})
+    res.status(201).json({
+        "status" : "success",
+        "data" : doc
+    })
+})
+
 module.exports = {
     getAllLandfills,
     getLandfill,
     createLandfill,
     updateLandfill,
-    deleteLandfill
+    deleteLandfill,
+    entry
 }

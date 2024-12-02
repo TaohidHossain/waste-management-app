@@ -10,11 +10,12 @@ router.route('/:landfillId')
     .get(authController.protect, authController.hasAccess("landfill:view"), landfillController.getLandfill)
     .put(authController.protect, authController.hasAccess("landfill:update"), landfillController.updateLandfill)
     .delete(authController.protect, authController.hasAccess("landfill:delete"), landfillController.deleteLandfill)
-
+    
 router.route('/:landfillId/entry')
-   .post(authController.protect, authController.hasAccess("landfill:entry"), (req, res) => {res.send(req.body)})
+    .post(authController.protect, authController.hasAccess("landfill:bill"), landfillController.entry)
 
 router.route('/:landfillId/bill')
-   .post(authController.protect, authController.hasAccess("landfill:bill"), (req, res) => {res.send(req.body)})
+   .post(authController.protect, authController.hasAccess("landfill:entry"), (req, res) => {res.send(req.body)})
+
 
 module.exports = router
