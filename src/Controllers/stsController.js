@@ -1,4 +1,4 @@
-const { Sts } = require('../Models') 
+const { Sts, StsManagers } = require('../Models') 
 const { asyncErrorHandler, CustomError } = require('../Utils')
 
 const createSts = asyncErrorHandler(async (req, res, next) => {
@@ -34,7 +34,7 @@ const deleteSts = asyncErrorHandler(async (req, res, next) => {
     const { stsId } = req.params
     const sts = await Sts.findByIdAndDelete(stsId)
     if(!sts){
-        const error = new CustomError("Role with given id is not found", 404)
+        const error = new CustomError("STS with given id is not found", 404)
         return next(error)
     }
     res.status(204).json({
@@ -47,7 +47,7 @@ const updateSts = asyncErrorHandler(async (req, res, next) => {
     const { stsId } = req.params
     const sts = await Sts.findByIdAndUpdate(stsId, req.body)
     if(!sts){
-        const error = new CustomError("Role with given id is not found", 404)
+        const error = new CustomError("STS with given id is not found", 404)
         return next(error)
     }
     res.status(200).json({
@@ -56,10 +56,40 @@ const updateSts = asyncErrorHandler(async (req, res, next) => {
     })
 })
 
+const getManagers = asyncErrorHandler(async (req, res, next) => {
+    const { stsId } = req.params
+    const managers = await StsManagers.find({stsId})
+    res.status(200).json({
+        "status" : "success",
+        "data" : managers
+    })
+})
+
+const assignManager = asyncErrorHandler(async (req, res, next) => {
+    const { stsId } = req.params
+    const { managerId } = req.body
+    const sts = await Sts.findById(stsId)
+    if(!sts){
+        const error = new CustomError("STS with given id is not found", 404)
+        return next(error)
+    }
+    if(!managerId){
+        const error = new CustomError("PLease provide managetrId", 400)
+        return next(error)
+    }
+    const doc = await StsManagers.create({stsId, managerId})
+    res.status(200).json({
+        "status" : "success",
+        "data" : doc
+    })
+})
+
 module.exports = {
     getAllStses,
     getSts,
     createSts,
     updateSts,
-    deleteSts
+    deleteSts,
+    getManagers,
+    assignManager
 }
