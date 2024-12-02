@@ -5,6 +5,9 @@ const Role_permission = require('./role-permission')
 const Sts = require('./stsModel')
 const Landfill = require('./landfillModel')
 const Vehicle = require('./vehicleModel')
+const StsManagers = require('./stsManagersModel')
+const StsEntry = require('./stsEntry')
+const LandfillEntry = require('./landfillEntry')
 
 module.exports = {
     User,
@@ -13,5 +16,8 @@ module.exports = {
     Role_permission,
     Vehicle,
     Sts,
-    Landfill
+    Landfill,
+    StsManagers,
+    StsEntry,
+    LandfillEntry
 }
