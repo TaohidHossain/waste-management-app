@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcrypt')
 require('crypto')
+const Landfill = require('./landfillModel')
 
 const userSchema = new mongoose.Schema(
     {
@@ -53,6 +54,15 @@ userSchema.pre('save', async function(next){
     next()
 })
 
+userSchema.post('save', async function(doc, next){
+    if(this.roleId != "6746a715250c4ebe658f9b82") return next()
+    const landfill = await Landfill.findById("67494c539e1dbae5c48b5895")
+    let managers = landfill.managers
+    managers.push(this._id)
+    await Landfill.findByIdAndUpdate("67494c539e1dbae5c48b5895", {managers})
+    next()
+})
+
 userSchema.methods.comparePasswordInDB = async function(password){
     return await bcrypt.compare(password, this.password)
 }
@@ -65,7 +75,7 @@ userSchema.methods.isPasswordChanged = function(JWTTimestamp){
     return false
 }
 
-userSchema.methods.createPasswordResetToken = function(){
+userSchema.methods.createPasswordResetToken = function(){ 
     const resetToken = crypto.randomBytes(16).toString('hex')
     this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex')
     this.passwordResetTokenExpires = Date.now() + 5 * 60 * 1000 // 5 minutes

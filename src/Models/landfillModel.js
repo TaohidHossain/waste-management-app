@@ -2,10 +2,6 @@ const mongoose = require('mongoose')
 
 const landfillShema = new mongoose.Schema(
     {
-        name: {
-            type: String,
-            required: [true, "Please provide a name for this landfill site"]
-        },
         longitude: {
             type: Number,
             required: [true, "Please provide the longitude of this landfill site"]
@@ -17,6 +13,9 @@ const landfillShema = new mongoose.Schema(
         capacity: {
             type: Number,
             required: [true, "Please provide the capacity of this landfill site"]
+        },
+        managers: {
+            type: [String]
         }
     },
     {
